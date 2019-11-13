@@ -1,0 +1,21 @@
+function CheckSales() {
+  // Fetch sales
+  var ss1 = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Form Responses 1")
+  var changeSalesRange = ss1.getRange("D1"); 
+  var LastRow = ss1.getLastRow();
+  var rangeB = ss1.getRange("B" + LastRow);
+  var rangeC = ss1.getRange("C" + LastRow);
+  var LatestB = rangeB.getValue();
+  var LatestC = rangeC.getValue();
+  var Sales = changeSalesRange.getValue();
+  if (Sales > 0){
+    // Fetch the email address
+    var emailRange = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Emails").getRange("B2:b3");
+    var emailAddress = emailRange.getValues();
+  
+    // Send Alert Email.
+    var message = 'Der er nu solgt for ialt ' + Sales + ' kr.\n\nDer er senest solgt '+LatestB+' for ialt '+LatestC + ' kr.';
+    var subject = 'Julesalg Ho Ho Ho';
+    GmailApp.sendEmail(emailAddress, subject, message);
+    }
+}
